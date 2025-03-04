@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Proxy Manager</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container py-3">
+        <!-- Ad Section -->
+        <div class="card shadow-sm mb-4 ad-section">
+            <div class="card-body text-center">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : '3157ae50a2c9507ac1ad5ac90d21b875',
+                        'format' : 'iframe',
+                        'height' : 90,
+                        'width' : 728,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//garmentclimbinghotel.com/3157ae50a2c9507ac1ad5ac90d21b875/invoke.js"></script>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-header text-center">
+                        <h2>Telegram Proxy Manager</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="proxy-info" class="mb-4">
+                            <div class="text-center mb-4">
+                                <i class="bi bi-shield-lock display-1"></i>
+                            </div>
+                            <div class="info-container">
+                                <div class="row mb-3">
+                                    <div class="col-md-4 text-muted">Server:</div>
+                                    <div class="col-md-8" id="server">-</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4 text-muted">Port:</div>
+                                    <div class="col-md-8" id="port">-</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4 text-muted">Country:</div>
+                                    <div class="col-md-8" id="country">-</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4 text-muted">Secret:</div>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="secret" readonly>
+                                            <button class="btn btn-outline-secondary copy-btn" type="button" onclick="copySecret()">
+                                                <i class="bi bi-clipboard"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" onclick="generateProxy()">
+                                <i class="bi bi-arrow-clockwise me-2"></i>Generate New Proxy
+                            </button>
+                            <button class="btn btn-success" id="open-proxy" onclick="openProxy()" disabled>
+                                <i class="bi bi-box-arrow-up-right me-2"></i>Open in Telegram
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
