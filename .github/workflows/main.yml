@@ -1,4 +1,4 @@
-name: Telegram Proxy Manager - Build & Deploy
+name: telegram-proxy-manager
 
 on:
   push:
@@ -14,59 +14,69 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  PYTHON_VERSION: 3.12.1
+  BUILD_NUMBER: 1
+  BUILD_VERSION: 1.0.0
+  PYTHON_VERSION: 3.12
   FLET_CLI_VERSION: 0.27.5
-  PYTHONUTF8: 1
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set Up Python ${{ env.PYTHON_VERSION }}
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgles2-mesa-dev libglib2.0-dev
+
+      - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install flet-cli==${{ env.FLET_CLI_VERSION }}
           pip install -r requirements.txt
 
-      - name: Build Web Application
+      - name: Verify Kivy Installation
         run: |
-          echo "Building web version of Telegram Proxy Manager"
+          pip show kivy || echo "Kivy not found"
+
+      - name: Flet Build Web
+        run: |
+          echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
           flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash
 
-      - name: Upload Artifact for Deployment
+      - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: telegram-proxy-manager-web
+          name: web-build-artifact
           path: build/web
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
+    permissions:
+      pages: write
+      id-token: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Setup GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Deploy to GitHub Pages 🚀
+        if: github.event_name == 'push'
         id: deployment
-        uses: actions/deploy-pages@v4.0.5
+        uses: actions/deploy-pages@v4
         with:
-          artifact_name: telegram-proxy-manager-web
+          artifact_name: web-build-artifact
